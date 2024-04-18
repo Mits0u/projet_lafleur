@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <script src="assets/js/cart.js"></script>
 
 <nav class="bg-white p-6 shadow-md">

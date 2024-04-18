@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $error_message = '';
 
 include './config/database.php';
@@ -12,18 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $query->fetch();
 
     if ($user) {
-        // Utilisateur trouvé, vérifiez le mot de passe
         if (password_verify($password, $user['mot_de_passe'])) {
-            // Mot de passe correct, connectez l'utilisateur
             $_SESSION['user'] = $user;
             header('Location: index.php');
             exit;
         } else {
-            // Mot de passe incorrect
             $error_message = 'Mot de passe incorrect';
         }
     } else {
-        // Utilisateur non trouvé avec cet e-mail
         $error_message = 'Aucun utilisateur trouvé avec cet e-mail';
     }
 }
