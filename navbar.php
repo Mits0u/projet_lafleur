@@ -7,7 +7,10 @@
         <a class="text-lg font-bold text-gray-800" href="#">LaFleur</a>
         <div class="hidden md:flex space-x-4">
             <a class="text-gray-600 hover:text-gray-800" href="index.php">Accueil</a>
+
+
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
+
             <a class="text-gray-600 hover:text-gray-800" href="#">À propos</a>
             <a class="text-gray-600 hover:text-gray-800" href="#">Contact</a>
             <a class="text-gray-600 hover:text-gray-800" id="cart-icon"><i
