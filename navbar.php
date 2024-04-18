@@ -2,7 +2,7 @@
 session_start();
 ?>
 
-<script src="cart.js"></script>
+<script src="assets/js/cart.js"></script>
 
 <nav class="bg-white p-6 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
