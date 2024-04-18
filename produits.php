@@ -2,24 +2,31 @@
 include './config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Vérifier si une catégorie a été sélectionnée
     if (!empty($_POST["categorie"])) {
         $categorie = $_POST["categorie"];
-        // Modifier la requête SQL pour sélectionner les produits de la catégorie sélectionnée
         $query = "SELECT id, nom, description, prix, image FROM fleur WHERE categorie = :categorie ORDER BY id DESC LIMIT 10";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':categorie', $categorie);
         $stmt->execute();
+    } elseif (!empty($_POST["search"])) {
+        $search = $_POST["search"];
+        // Convertir la recherche et la colonne 'nom' en minuscules pour ignorer la casse
+        $search = strtolower($search);
+        $query = "SELECT id, nom, description, prix, image FROM fleur WHERE LOWER(nom) LIKE :search ORDER BY id DESC LIMIT 10";
+        $stmt = $conn->prepare($query);
+        // Ajouter des caractères de joker (%) pour correspondre à n'importe quel texte avant et après le terme de recherche
+        $search = "%$search%";
+        $stmt->bindParam(':search', $search);
+        $stmt->execute();
     } else {
-        // Si aucune catégorie n'est sélectionnée, récupérez tous les produits
         $query = "SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10";
         $stmt = $conn->query($query);
     }
 } else {
-    // Si le formulaire n'a pas été soumis, récupérez tous les produits par défaut
     $query = "SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10";
     $stmt = $conn->query($query);
 }
+
 ?>
 
 
@@ -44,41 +51,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="container flex flex-col justify-center items-center ">
             <h1 class="text-4xl md:text-6xl text-black font-bold">Nos produits </h1>
+            <div class="flex flex-col sm:flex-row gap-4 mt-12 flex flex-col justify-start items-start">
+                <form method="post" class="mb-4 flex items-center justify-center">
 
-            <form method="post" class="mb-4 flex items-center justify-center">
-                
-                <div class="relative">
-                    <select name="categorie" id="categorie" class="border rounded p-2 pr-8 text-gray-800">
-                        <option value="">Toutes les catégories</option>
-                        <?php
-                        // Requête pour récupérer les libellés des catégories
-                        $categoriesQuery = "SELECT id, description FROM categorie_fleur ORDER BY description ASC";
-                        $categoriesResult = $conn->query($categoriesQuery);
-                        while ($categorieRow = $categoriesResult->fetch(PDO::FETCH_ASSOC)) {
-                            // Vérifier si cette catégorie est celle sélectionnée
-                            $selected = ($categorie === $categorieRow['id']) ? 'selected' : '';
-                            echo '<option value="' . $categorieRow['id'] . '" ' . $selected . '>' . $categorieRow['description'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                    
-                </div>
-                <button type="submit"
-                    class="ml-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Filtrer</button>
-            </form>
+                    <div class="relative">
+                        <select name="categorie" id="categorie" class="border rounded p-2 pr-8 text-gray-800">
+                            <option value="">Toutes les catégories</option>
+                            <?php
+                            // Requête pour récupérer les libellés des catégories
+                            $categoriesQuery = "SELECT id, description FROM categorie_fleur ORDER BY description ASC";
+                            $categoriesResult = $conn->query($categoriesQuery);
+                            while ($categorieRow = $categoriesResult->fetch(PDO::FETCH_ASSOC)) {
+                                // Vérifier si cette catégorie est celle sélectionnée
+                                $selected = ($categorie === $categorieRow['id']) ? 'selected' : '';
+                                echo '<option value="' . $categorieRow['id'] . '" ' . $selected . '>' . $categorieRow['description'] . '</option>';
+                            }
+                            ?>
+                        </select>
+
+                    </div>
+                    <button type="submit"
+                        class="ml-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Filtrer</button>
+                </form>
+                <form method="post" class="mb-4 flex items-center justify-center">
+                    <div class="relative">
+                        <input type="text" name="search" id="search" class="border rounded p-2 pr-8 text-gray-800"
+                            placeholder="Entrez votre recherche">
+                    </div>
+                    <button type="submit"
+                        class="ml-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Rechercher</button>
+                </form>
+            </div>
+
 
             <?php
 
-            $result = $conn->query("SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10");
-
-            // Vérification s'il y a des résultats
-            if ($result->rowCount() > 0) {
+            // Récupérer les résultats de la requête selon la logique de traitement définie ci-dessus
+            if ($stmt->rowCount() > 0) {
                 ?>
-                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 mt-24">
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 mt-12">
 
                     <?php
                     // Boucle à travers les résultats
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                         <a href="uniproduit.php">
                             <div class="flex flex-col sm:flex-row col-span-1 row-span-1 rounded-3xl">
@@ -109,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <?php
             } else {
-                echo "Aucun résultat trouvé dans la base de données.";
+                echo "Aucun résultat trouvé ";
             }
 
             // Fermer la connexion à la base de données
