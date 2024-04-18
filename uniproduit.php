@@ -92,8 +92,6 @@ include './config/database.php';
                                 <a href="#">
                                     <img src="https://source.unsplash.com/1600x900/?tulip" alt="Image par défaut"
                                         class="w-full h-full rounded-2xl object-cover">
-
-
                                 </a>
                             </div>
                             <div class="flex items-center w-64 bg-green-500 mt-2 rounded-md justify-center ">
@@ -110,8 +108,6 @@ include './config/database.php';
                                 <a href="#">
                                     <img src="https://source.unsplash.com/1600x900/?tulip" alt="Image par défaut"
                                         class="w-full h-full rounded-2xl object-cover">
-
-
                                 </a>
                             </div>
                             <div class="flex items-center w-64 bg-green-500 mt-2 rounded-md justify-center ">
