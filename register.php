@@ -1,3 +1,29 @@
+<?php
+    include './config/database.php';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['name'];
+        $lastname = $_POST['lastname'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $password_confirmation = $_POST['password_confirmation'];
+        $date_creation = new DateTime('now');
+
+        if ($password === $password_confirmation) {
+            $query = $conn->prepare('INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, date_creation) VALUES (:name, :lastname, :email, :password, :date_creation)');
+            $query->execute([
+                'name' => $name,
+                'lastname' => $lastname,
+                'email' => $email,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'date_creation' => $date_creation->format('Y-m-d H:i:s')
+            ]);
+
+            header('Location: index.php');
+        }
+    }
+    ?>  
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,30 +72,6 @@
             </div>
         </form>
     </section>
-
-    <?php
-    include './config/database.php';
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'];
-        $lastname = $_POST['lastname'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $password_confirmation = $_POST['password_confirmation'];
-
-        if ($password === $password_confirmation) {
-            $query = $conn->prepare('INSERT INTO utilisateur (nom, prenom, email, mot_de_passe) VALUES (:name, :lastname, :email, :password)');
-            $query->execute([
-                'name' => $name,
-                'lastname' => $lastname,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]);
-
-            header('Location: index.php');
-        }
-    }
-    ?>  
     
 </body>
 </html>
