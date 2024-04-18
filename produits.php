@@ -1,6 +1,27 @@
 <?php
 include './config/database.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Vérifier si une catégorie a été sélectionnée
+    if (!empty($_POST["categorie"])) {
+        $categorie = $_POST["categorie"];
+        // Modifier la requête SQL pour sélectionner les produits de la catégorie sélectionnée
+        $query = "SELECT id, nom, description, prix, image FROM fleur WHERE categorie = :categorie ORDER BY id DESC LIMIT 10";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':categorie', $categorie);
+        $stmt->execute();
+    } else {
+        // Si aucune catégorie n'est sélectionnée, récupérez tous les produits
+        $query = "SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10";
+        $stmt = $conn->query($query);
+    }
+} else {
+    // Si le formulaire n'a pas été soumis, récupérez tous les produits par défaut
+    $query = "SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10";
+    $stmt = $conn->query($query);
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +40,33 @@ include './config/database.php';
 
     <?php include 'navbar.php'; ?>
 
-    <section class=" justify-center mt-12 flex  bg-cover "
-        >
-       
+    <section class=" justify-center mt-12 flex  bg-cover ">
+
         <div class="container flex flex-col justify-center items-center ">
             <h1 class="text-4xl md:text-6xl text-black font-bold">Nos produits </h1>
+
+            <form method="post" class="mb-4 flex items-center justify-center">
+                
+                <div class="relative">
+                    <select name="categorie" id="categorie" class="border rounded p-2 pr-8 text-gray-800">
+                        <option value="">Toutes les catégories</option>
+                        <?php
+                        // Requête pour récupérer les libellés des catégories
+                        $categoriesQuery = "SELECT id, description FROM categorie_fleur ORDER BY description ASC";
+                        $categoriesResult = $conn->query($categoriesQuery);
+                        while ($categorieRow = $categoriesResult->fetch(PDO::FETCH_ASSOC)) {
+                            // Vérifier si cette catégorie est celle sélectionnée
+                            $selected = ($categorie === $categorieRow['id']) ? 'selected' : '';
+                            echo '<option value="' . $categorieRow['id'] . '" ' . $selected . '>' . $categorieRow['description'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    
+                </div>
+                <button type="submit"
+                    class="ml-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Filtrer</button>
+            </form>
+
             <?php
 
             $result = $conn->query("SELECT id, nom, description, prix, image FROM fleur ORDER BY id DESC LIMIT 10");
@@ -35,7 +78,7 @@ include './config/database.php';
 
                     <?php
                     // Boucle à travers les résultats
-                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         ?>
                         <a href="uniproduit.php">
                             <div class="flex flex-col sm:flex-row col-span-1 row-span-1 rounded-3xl">
