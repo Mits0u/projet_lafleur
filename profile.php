@@ -16,7 +16,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-200">
 
     <?php
     include 'navbar.php';
@@ -88,8 +88,9 @@
     }
     ?>
 
-    <section class="container mx-auto mt-16">
-        <h2 class="text-2xl font-bold">Compte</h2>
+    <section class="container mx-auto mt-16 p-8 bg-white rounded-lg shadow-md
+    ">
+        <h2 class="text-2xl font-bold">Modifier mes informations</h2>
         <h3 class="text-lg font-bold gap-8 mt-8">Informations personnelles:</h3>
         <form action="profile.php" method="POST">
             <div class="grid grid-cols-2 gap-4">

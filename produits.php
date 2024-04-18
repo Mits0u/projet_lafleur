@@ -16,7 +16,7 @@
     </style>
 </head>
 
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-gray-200 font-sans leading-normal tracking-normal">
 
     <?php include 'navbar.php'; ?>
 
