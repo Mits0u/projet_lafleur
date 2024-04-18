@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>LaFleur | Connexion</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/35413ab60a.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>

@@ -9,7 +9,6 @@
 
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
 
-            <a class="text-gray-600 hover:text-gray-800" href="#">À propos</a>
             <a class="text-gray-600 hover:text-gray-800" href="#">Contact</a>
             <a class="text-gray-600 hover:text-gray-800" id="cart-icon"><i
                     class="fas fa-shopping-cart text-gray-800"></i></a>
