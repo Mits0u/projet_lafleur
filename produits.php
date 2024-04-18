@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Boucle à travers les résultats
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         ?>
-                        <a href="uniproduit.php">
+                        <a href="uniproduit.php?id=<?php echo $row['id']; ?>">
                             <div class="flex flex-col sm:flex-row col-span-1 row-span-1 rounded-3xl">
                                 <div class="card1 bg-white w-72 h-64 rounded-md text-black bg-white">
                                     <div class="Photo flex justify-center">

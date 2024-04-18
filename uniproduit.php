@@ -1,6 +1,53 @@
 <?php
 include './config/database.php';
+
+// Initialisation des variables
+$article_nom = '';
+$article_description = '';
+$article_prix = '';
+$article_categorie = '';
+$article_image = '';
+
+// Vérifier si l'ID de l'article est passé dans l'URL
+if (isset($_GET['id'])) {
+    // Récupérer l'ID de l'article depuis l'URL
+    $fleur_id = $_GET['id'];
+
+    // Requête SQL pour récupérer les informations de l'article depuis la base de données
+    $sql = 'SELECT * FROM fleur WHERE id = :fleur_id';
+
+    // Préparation de la requête
+    $stmt = $conn->prepare($sql);
+
+    // Liaison du paramètre :fleur_id avec la valeur de l'ID de l'article
+    $stmt->bindParam(':fleur_id', $fleur_id, PDO::PARAM_INT);
+
+    // Exécution de la requête
+    $stmt->execute();
+
+    // Récupération des résultats dans un tableau associatif
+    $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Vérifier si l'article existe
+    if ($article) {
+        // Récupérer les informations de l'article
+        $article_nom = $article['nom'];
+        $article_description = $article['description'];
+        $article_prix = $article['prix'];
+        $article_categorie = $article['categorie'];
+        $article_image = $article['image'];
+    } else {
+        // Redirection vers une autre page si l'article n'est pas trouvé
+        header("Location: produits.php");
+        exit();
+    }
+} else {
+    // Redirection vers une autre page si l'ID de l'article n'est pas passé dans l'URL
+    header("Location: produits.php");
+    exit();
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
