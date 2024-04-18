@@ -12,20 +12,20 @@
 </head>
 
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
+    
     <?php include 'navbar.php'; ?>
 
     <section class="bg-cover bg-center h-screen flex items-center text-white"
         style="background-image: url('https://source.unsplash.com/1600x900/?flowers')">
         <div class="container mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-bold">Bienvenue chez LaFleur</h1>
-            <p class="text-lg md:text-xl mt-4">Découvrez notre sélection de fleurs fraîches et magnifiques</p>
+            <h1 class="text-4xl md:text-6xl font-bold text-black">Bienvenue chez LaFleur</h1>
+            <p class="text-lg md:text-xl mt-4 text-black">Découvrez notre sélection de fleurs fraîches et magnifiques</p>
             <a href="#"
                 class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 mt-6 inline-block rounded">Acheter
-                maintenant</a>
+                maintenant</a>  
         </div>
     </section>
-
+       
 </body>
 
 </html>
