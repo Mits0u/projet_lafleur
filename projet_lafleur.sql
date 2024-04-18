@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 18 avr. 2024 à 11:46
+-- Généré le : jeu. 18 avr. 2024 à 13:29
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.1.13
 
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `fleur` (
   `description` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `prix` float DEFAULT NULL,
   `categorie` int DEFAULT NULL,
+  `image` blob NOT NULL,
   PRIMARY KEY (`id`),
   KEY `categorie` (`categorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -141,7 +142,15 @@ CREATE TABLE IF NOT EXISTS `type_compte` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Déchargement des données de la table `type_compte`
+--
+
+INSERT INTO `type_compte` (`id`, `description`) VALUES
+(1, 'utilisateur'),
+(2, 'administrateur');
 
 -- --------------------------------------------------------
 
@@ -160,6 +169,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `date_creation` date DEFAULT NULL,
   `adresse` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `code_postal` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `ville` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `type_compte_id` (`type_compte_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -168,8 +178,8 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id`, `type_compte_id`, `nom`, `prenom`, `email`, `mot_de_passe`, `date_creation`, `adresse`, `code_postal`) VALUES
-(1, NULL, 'Poltron', 'Steven', 'stpoltron@stpbb.org', '$2y$10$5c8dw8K.pKvtDRlxhDF6s.9skh7i1JpMwRhKieVLiVoJJiAo7OC9u', '2024-04-18', NULL, NULL);
+INSERT INTO `utilisateur` (`id`, `type_compte_id`, `nom`, `prenom`, `email`, `mot_de_passe`, `date_creation`, `adresse`, `code_postal`, `ville`) VALUES
+(1, 2, 'Poltron', 'Steven', 'stpoltron@stpbb.org', '$2y$10$5c8dw8K.pKvtDRlxhDF6s.9skh7i1JpMwRhKieVLiVoJJiAo7OC9u', '2024-04-18', NULL, NULL, NULL);
 
 --
 -- Contraintes pour les tables déchargées
