@@ -71,12 +71,13 @@
 
             if (!empty($nouveau_mot_de_passe) && $nouveau_mot_de_passe === $confirmation_mot_de_passe) {
                 $hashed_password = password_hash($nouveau_mot_de_passe, PASSWORD_DEFAULT);
-
                 $query = $conn->prepare('UPDATE utilisateur SET mot_de_passe = :mot_de_passe WHERE id = :id');
                 $query->execute(['mot_de_passe' => $hashed_password, 'id' => $user_id]);
+            } elseif (!empty($nouveau_mot_de_passe) && $nouveau_mot_de_passe !== $confirmation_mot_de_passe) {
+                $errors['password'] = "Les mots de passe ne correspondent pas.";
             }
 
-            header("Location: profile.php");
+            header("Location: profile.php?success=true");
             exit();
         }
     }
@@ -165,6 +166,11 @@
                         <input type="password"
                             class="w-full border border-gray-300 rounded-md py-2 px-4 mt-2 mr-4 focus:outline-none focus:ring focus:border-blue-300"
                             id="password" name="password" value="" placeholder="facultatif">
+                        <?php
+                        if (isset($errors['password'])) {
+                            echo '<p class="text-red-500 text-xs italic">' . $errors['password'] . '</p>';
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="flex flex-col">
@@ -174,6 +180,11 @@
                         <input type="password"
                             class="w-full border border-gray-300 rounded-md py-2 px-4 mt-2 focus:outline-none focus:ring focus:border-blue-300 gap-8"
                             id="password_confirm" name="password_confirm" value="" placeholder="facultatif">
+                        <?php
+                        if (isset($errors['password'])) {
+                            echo '<p class="text-red-500 text-xs italic">' . $errors['password'] . '</p>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -182,6 +193,15 @@
                     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Enregistrer</button>
             </div>
         </form>
+
+        <?php
+        if (isset($_GET['success'])) {
+            echo '<div class="mt-8 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Succès!</strong>
+            <span class="block sm:inline">Vos informations ont été mises à jour.</span>
+          </div>';
+        }
+        ?>
     </section>
 
 </body>
