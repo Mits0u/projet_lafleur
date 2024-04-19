@@ -1,34 +1,41 @@
 <?php
-
 session_start();
 include './config/database.php';
 
+if (!isset($_SESSION['user']['id'])) {
+    echo json_encode(['error' => 'Veuillez vous connecter pour accéder à votre panier']);
+    exit;
+}
+
 $id_utilisateur = $_SESSION['user']['id'];
 
-$sql = "SELECT p.id, jf.quantite, pr.nom, pr.prix, pr.image
-        FROM panier p
-        INNER JOIN junction_panier_fleur jf ON p.id = jf.id_panier
-        INNER JOIN fleur pr ON jf.id_fleur = pr.id
-        WHERE p.id = (SELECT id_panier FROM commande WHERE id_utilisateur = :id_utilisateur)";
+$sql = "SELECT jf.id_fleur, jf.quantite, f.nom, f.prix
+        FROM junction_panier_fleur jf
+        INNER JOIN fleur f ON jf.id_fleur = f.id
+        WHERE jf.id = :id_utilisateur";
 
 $query = $conn->prepare($sql);
-$query->execute(['id_utilisateur' => $id_utilisateur]);
+$query->execute(['id_utilisateur'=> $id_utilisateur]);
 $result = $query->fetchAll();
 
+if (empty($result)) {
+echo json_encode(['products' => [], 'total' => 0, 'message' => 'Votre panier est vide']);
+exit;
+}
+
 $cart = [
-    'products' => [],
-    'total' => 0
+'products' => [],
+'total' => 0
 ];
 
 foreach ($result as $row) {
-    $cart['products'][] = [
-        'id' => $row['id'],
-        'name' => $row['nom'],
-        'price' => $row['prix'],
-        'quantity' => $row['quantite'],
-        'image' => base64_encode($row['image'])
-    ];
-    $cart['total'] += $row['prix'] * $row['quantite'];
+$cart['products'][] = [
+'id' => $row['id_fleur'],
+'name' => $row['nom'],
+'price' => $row['prix'],
+'quantity' => $row['quantite']
+];
+$cart['total'] += $row['prix'] * $row['quantite'];
 }
 
 echo json_encode($cart);
