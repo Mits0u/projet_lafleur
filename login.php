@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $error_message = '';
 
 include './config/database.php';
@@ -12,18 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $query->fetch();
 
     if ($user) {
-        // Utilisateur trouvé, vérifiez le mot de passe
         if (password_verify($password, $user['mot_de_passe'])) {
-            // Mot de passe correct, connectez l'utilisateur
             $_SESSION['user'] = $user;
             header('Location: index.php');
             exit;
         } else {
-            // Mot de passe incorrect
             $error_message = 'Mot de passe incorrect';
         }
     } else {
-        // Utilisateur non trouvé avec cet e-mail
         $error_message = 'Aucun utilisateur trouvé avec cet e-mail';
     }
 }
@@ -38,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>LaFleur | Connexion</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/35413ab60a.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
