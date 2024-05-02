@@ -1,4 +1,5 @@
 <?php
+session_start();
 include './config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,11 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
     } elseif (!empty($_POST["search"])) {
         $search = $_POST["search"];
-        // Convertir la recherche et la colonne 'nom' en minuscules pour ignorer la casse
         $search = strtolower($search);
         $query = "SELECT id, nom, description, prix, image FROM fleur WHERE LOWER(nom) LIKE :search ORDER BY id DESC LIMIT 10";
         $stmt = $conn->prepare($query);
-        // Ajouter des caractères de joker (%) pour correspondre à n'importe quel texte avant et après le terme de recherche
         $search = "%$search%";
         $stmt->bindParam(':search', $search);
         $stmt->execute();
@@ -61,11 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select name="categorie" id="categorie" class="border rounded p-2 pr-8 text-gray-800">
                             <option value="">Toutes les catégories</option>
                             <?php
-                            // Requête pour récupérer les libellés des catégories
                             $categoriesQuery = "SELECT id, description FROM categorie_fleur ORDER BY description ASC";
                             $categoriesResult = $conn->query($categoriesQuery);
                             while ($categorieRow = $categoriesResult->fetch(PDO::FETCH_ASSOC)) {
-                                // Vérifier si cette catégorie est celle sélectionnée
                                 $selected = ($categorie === $categorieRow['id']) ? 'selected' : '';
                                 echo '<option value="' . $categorieRow['id'] . '" ' . $selected . '>' . $categorieRow['description'] . '</option>';
                             }
@@ -90,13 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php
 
-            // Récupérer les résultats de la requête selon la logique de traitement définie ci-dessus
             if ($stmt->rowCount() > 0) {
                 ?>
                 <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 mt-12">
 
                     <?php
-                    // Boucle à travers les résultats
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         ?>
                         <a href="uniproduit.php?id=<?php echo $row['id']; ?>">
@@ -104,7 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="card1 bg-white w-72 h-64 rounded-md text-black bg-white">
                                     <div class="Photo flex justify-center">
                                         <?php
-                                        // Assurez-vous que $row['image'] contient les données binaires de l'image encodées en base64
                                         $imageData = base64_encode($row['image']);
                                         echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="image' . $row['id'] . '" class="h-44 w-full object-cover rounded-t-md">';
                                         ?>
@@ -131,7 +125,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Aucun résultat trouvé ";
             }
 
-            // Fermer la connexion à la base de données
             $conn = null;
             ?>
         </div>
