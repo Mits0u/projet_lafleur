@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="container mx-auto mt-16">
         <h2 class="text-2xl font-bold text-center">Connexion</h2>
-        <form action="login.php" method="POST" class="max-w-md mx-auto mt-8">
+        <form action="connexion.php" method="POST" class="max-w-md mx-auto mt-8">
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 font-bold mb-2">Adresse email</label>
                 <input type="email" name="email" id="email"

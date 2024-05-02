@@ -19,7 +19,6 @@ if (!isset($data->productId) || !isset($data->quantityChange)) {
 $productId = $data->productId;
 $quantityChange = $data->quantityChange;
 
-// Récupération de l'id du panier de l'utilisateur
 $sql_panier = "SELECT id_panier FROM commande WHERE id_utilisateur = :id_utilisateur";
 $query_panier = $conn->prepare($sql_panier);
 $query_panier->execute(['id_utilisateur' => $id_utilisateur]);
