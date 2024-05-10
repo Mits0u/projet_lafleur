@@ -76,11 +76,11 @@ function deleteCartItem($productId)
     $result = $deleteJunctionQuery->execute();
 
     if ($result) {
-        // header('Location: cart.php?success=delete');
+        // header('Location: panier.php?success=delete');
         echo json_encode(['success' => true]);
         exit;
     } else {
-        // header('Location: cart.php?error=delete');
+        // header('Location: panier.php?error=delete');
         echo json_encode(['success' => false]);
         exit;
     }
@@ -187,7 +187,7 @@ $cartItems = getCartItems();
                     const productId = this.dataset.productId;
                     const quantity = this.value;
 
-                    fetch(`cart.php?action=update&id=${productId}&quantity=${quantity}`, {
+                    fetch(`panier.php?action=update&id=${productId}&quantity=${quantity}`, {
                             method: 'POST'
                         })
                         .then(response => response.json())
@@ -211,7 +211,7 @@ $cartItems = getCartItems();
 
             // Function to update total price
             function updateTotalPrice() {
-                fetch('cart.php?action=total')
+                fetch('panier.php?action=total')
                     .then(response => response.json())
                     .then(data => {
                         totalPriceElement.textContent = data.totalPrice + '€';
@@ -253,14 +253,14 @@ $cartItems = getCartItems();
             button.addEventListener('click', function() {
                 const productId = this.dataset.productId;
 
-                fetch(`cart.php?action=delete&id=${productId}`, {
+                fetch(`panier.php?action=delete&id=${productId}`, {
                         method: 'POST' // Utilisez la méthode POST pour envoyer les données
                     })
                     .then(response => {
                         if (response.ok) {
-                            window.location.href = 'cart.php?success=delete';
+                            window.location.href = 'panier.php?success=delete';
                         } else {
-                            window.location.href = 'cart.php?error=delete';
+                            window.location.href = 'panier.php?error=delete';
                         }
                     })
                     .catch(error => {

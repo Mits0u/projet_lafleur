@@ -9,7 +9,7 @@
 
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
 
-            <a class="text-gray-600 hover:text-gray-800" href="#">Contact</a>
+            <a class="text-gray-600 hover:text-gray-800" href="contact.php">Contact</a>
             <a class="text-gray-600 hover:text-gray-800" href="panier.php"><i
                     class="fas fa-shopping-cart text-gray-800"></i></a>
             <?php if (isset($_SESSION['user'])): ?>
@@ -35,7 +35,7 @@
     <div class="p-4">
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="index.php">Accueil</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="produits.php">Produits</a>
-        <a class="block text-gray-600 hover:text-gray-800 py-2" href="#">Contact</a>
+        <a class="block text-gray-600 hover:text-gray-800 py-2" href="contact.php">Contact</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="panier.php">Panier</a>
         <?php if (isset($_SESSION['user'])): ?>
             <a class="block text-gray-600 hover:text-gray-800 py-2" href="profile.php">Compte</a>
@@ -51,7 +51,7 @@
 <div id="cart-popover" class="hidden bg-white p-8 absolute top-0 right-4 mt-16 shadow-md rounded-md justify-start">
 </div>
 
-<!-- <script>
+<script>
     document.getElementById('menu-toggle').addEventListener('click', function () {
         var menu = document.getElementById('mobile-menu');
         var overlay = document.getElementById('mobile-menu-overlay');
@@ -70,4 +70,4 @@
         menu.classList.add('translate-x-full');
         overlay.classList.add('hidden');
     });
-</script> -->
+</script>
