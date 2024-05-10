@@ -10,6 +10,11 @@
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
 
             <a class="text-gray-600 hover:text-gray-800" href="#">Contact</a>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user']['type_compte_id'] != 1): ?>
+                <a class="text-gray-600 hover:text-gray-800" href="backend.php">Backend</a>
+            <?php else: ?>
+
+            <?php endif; ?>
             <a class="text-gray-600 hover:text-gray-800" href="panier.php"><i
                     class="fas fa-shopping-cart text-gray-800"></i></a>
             <?php if (isset($_SESSION['user'])): ?>

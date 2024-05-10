@@ -101,9 +101,9 @@ $userstmt = $conn->query($query2);
                             echo "<td class='border border-gray-300 px-4 py-2'>" . $row['ville'] . "</td>";
                             // Ajout des boutons Modifier et Supprimer
                             echo "<td class='border-t flex flex-col h-full sm:flex-row mx-full border-gray-300 '>";
-                            echo "<form method='post' action='edit_product.php'>";
-                            echo "<input type='hidden' name='product_id' value='" . $row['id'] . "'>";
-                            echo "<button type='submit' name='edit_product' class=' text-blue-500 px-4 py-1 rounded mr-2'><i class=\"fa-solid fa-pen\"></i></button>";
+                            echo "<form method='post' action='edit_user.php?id=". $row['id'] .";'>";
+                            echo "<input type='hidden' name='user_id' value='" . $row['id'] . "'>";
+                            echo "<button type='submit' name='edit_user' class=' text-blue-500 px-4 py-1 rounded mr-2'><i class=\"fa-solid fa-pen\"></i></button>";
                             echo "</form>";
                             echo "<form method='post'>";
                             echo "<input type='hidden' name='user-id' value='" . $row['id'] . "'>";
@@ -142,7 +142,7 @@ $userstmt = $conn->query($query2);
                                 echo "<td class='border border-gray-300 px-4 py-2'>" . $row['prix'] . "</td>";
                                 // Ajout des boutons Modifier et Supprimer
                                 echo "<td class='border-t flex flex-col h-full sm:flex-row mx-full border-gray-300 '>";
-                                echo "<form method='post' action='edit_product.php'>";
+                                echo "<form method='post' action='edit_product.php?id=". $row['id'] .";'>";
                                 echo "<input type='hidden' name='product_id' value='" . $row['id'] . "'>";
                                 echo "<button type='submit' name='edit_product' class='text-blue-500  px-4 py-1 rounded mr-2'><i class=\"fa-solid fa-pen\"></i></button>";
                                 echo "</form>";
