@@ -103,7 +103,7 @@ if (isset($_POST['submit'])) {
                     value="<?php echo isset($result['ville']) ? $result['ville'] : ''; ?>">
             </div>
             <div class="flex flex-col md:flex-row gap-4 mt-4">
-                <button class="bg-green-700 text-white w-full p-4 rounded-md" type="submit"
+                <button class="bg-green-500v text-white w-full p-4 rounded-md" type="submit"
                     name="submit">Modifier</button>
             </div>
     </div>

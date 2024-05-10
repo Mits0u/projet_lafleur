@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
                     class="w-full p-4 border rounded shadow appearance-none focus:outline-none focus:shadow-outline-blue">
             </div>
             <div class="flex flex-col md:flex-row gap-4">
-                <button class="bg-green-700 text-white w-full p-4 rounded-md mt-4" type="submit"
+                <button class="bg-green-500 text-white w-full p-4 rounded-md mt-4" type="submit"
                     name="submit">Modifier</button>
             </div>
         </form>

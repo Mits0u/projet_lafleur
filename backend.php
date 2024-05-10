@@ -157,6 +157,12 @@ $userstmt = $conn->query($query2);
                         </tbody>
                     </table>
                 </div>
+                <a href="addproduct.php">
+                    <button class="flex flex-row items-center rounded-md p-4 bg-green-500 text-white">
+                        <h1>Ajouter une fleur
+                        </h1>
+                    </button>
+                </a>
             </div>
     </section>
 </body>
