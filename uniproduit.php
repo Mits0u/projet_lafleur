@@ -89,36 +89,26 @@ $reqstmt->execute();
 
 <body class="bg-gray-200 h-screen ">
 
-    <!-- Barre de navigation -->
     <?php include 'navbar.php'; ?>
 
-    <!-- Section des produits -->
     <section class="container mx-auto lg:max-w-7xl">
 
         <div class=" mt-24  ">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 flex items-center">
-                <!-- Image du produit -->
                 <div class="p-4">
                     <?php
-                    // Assurez-vous que $row['image'] contient les données binaires de l'image encodées en base64
                     $imageData = base64_encode($article_image);
                     echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="image' . $article_nom . '" class="rounded-lg object-cover h-72  w-full">';
                     ?>
                 </div>
-                <!-- Détails du produit -->
                 <div class="p-4">
                     <h1 class="text-2xl md:text-4xl font-bold mb-4"><?php echo $article_nom ?></h1>
-                    <!-- Sélection de la taille -->
                     <div class="mb-4">
                         <?php echo $article_description ?>
                     </div>
-                    <!-- Prix -->
                     <div class="text-3xl md:text-4xl font-bold text-black mb-4"><?php echo $article_prix ?>€</div>
-                    <!-- Vase offert -->
 
-                    <!-- Bouton Ajouter au panier -->
-                    <button class="bg-green-500 text-white px-6 py-3 rounded-md mb-4">Ajouter au panier</button>
-
+                    <a href="ajout_panier.php?id=<?php echo $article_id; ?>" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Ajouter au panier</a>
 
                 </div>
             </div>
@@ -143,7 +133,6 @@ $reqstmt->execute();
                                 <div class="testclass rainy swiper-slide relative rounded-2xl">
                                     <div class="image1 relative h-32 w-64">
                                         <?php
-                                        // Assurez-vous que $row['image'] contient les données binaires de l'image encodées en base64
                                         $imageData = base64_encode($row['image']);
                                         echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="image' . $row['nom'] . '" class="w-full h-full rounded-2xl object-cover">';
                                         ?>

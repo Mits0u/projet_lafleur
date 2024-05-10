@@ -2,7 +2,7 @@
 
 <nav class="bg-white p-6 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
-        <a class="text-lg font-bold text-gray-800" href="#">LaFleur</a>
+        <a class="text-lg font-bold text-gray-800" href="index.php">LaFleur</a>
         <div class="hidden md:flex space-x-4">
             <a class="text-gray-600 hover:text-gray-800" href="index.php">Accueil</a>
 
@@ -10,15 +10,15 @@
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
 
             <a class="text-gray-600 hover:text-gray-800" href="#">Contact</a>
-            <a class="text-gray-600 hover:text-gray-800" id="cart-icon"><i
+            <a class="text-gray-600 hover:text-gray-800" href="panier.php"><i
                     class="fas fa-shopping-cart text-gray-800"></i></a>
             <?php if (isset($_SESSION['user'])): ?>
                 <a class="text-gray-600 hover:text-gray-800" href="profile.php"><i
                         class="fas fa-user text-gray-800"></i></a>
-                <a class="text-gray-600 hover:text-gray-800" href="logout.php"><i
+                <a class="text-gray-600 hover:text-gray-800" href="deconnexion.php"><i
                         class="fas fa-sign-out-alt text-gray-800"></i></a>
             <?php else: ?>
-                <a class="text-gray-600 hover:text-gray-800" href="login.php"><i
+                <a class="text-gray-600 hover:text-gray-800" href="connexion.php"><i
                         class="fas fa-sign-in-alt text-gray-800"></i></a>
             <?php endif; ?>
         </div>
@@ -35,14 +35,13 @@
     <div class="p-4">
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="index.php">Accueil</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="produits.php">Produits</a>
-        <a class="block text-gray-600 hover:text-gray-800 py-2" href="#">À propos</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="#">Contact</a>
-        <a class="block text-gray-600 hover:text-gray-800 py-2" href="cart.php">Panier</a>
+        <a class="block text-gray-600 hover:text-gray-800 py-2" href="panier.php">Panier</a>
         <?php if (isset($_SESSION['user'])): ?>
             <a class="block text-gray-600 hover:text-gray-800 py-2" href="profile.php">Compte</a>
-            <a class="block text-gray-600 hover:text-gray-800 py-2" href="logout.php">Déconnexion</a>
+            <a class="block text-gray-600 hover:text-gray-800 py-2" href="deconnexion.php">Déconnexion</a>
         <?php else: ?>
-            <a class="block text-gray-600 hover:text-gray-800 py-2" href="login.php">Connexion</a>
+            <a class="block text-gray-600 hover:text-gray-800 py-2" href="connexion.php">Connexion</a>
         <?php endif; ?>
     </div>
 </div>
@@ -52,7 +51,7 @@
 <div id="cart-popover" class="hidden bg-white p-8 absolute top-0 right-4 mt-16 shadow-md rounded-md justify-start">
 </div>
 
-<script>
+<!-- <script>
     document.getElementById('menu-toggle').addEventListener('click', function () {
         var menu = document.getElementById('mobile-menu');
         var overlay = document.getElementById('mobile-menu-overlay');
@@ -71,4 +70,4 @@
         menu.classList.add('translate-x-full');
         overlay.classList.add('hidden');
     });
-</script>
+</script> -->
