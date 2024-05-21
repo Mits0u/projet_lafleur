@@ -63,29 +63,22 @@ function deleteCartItem($productId)
 
     $userId = $_SESSION['user']['id'];
 
-    $deletePanierJunctionQuery = $conn->prepare('DELETE FROM panier_junction_panier_fleur WHERE id_junction_panier_fleur IN (SELECT id FROM junction_panier_fleur WHERE id_panier = :userId)');
-    $deletePanierJunctionQuery->bindParam(':userId', $userId);
-    $deletePanierJunctionQuery->execute();
-
-    $deleteFleurJunctionQuery = $conn->prepare('DELETE FROM fleur_junction_panier_fleur WHERE id_junction_panier_fleur IN (SELECT id FROM junction_panier_fleur WHERE id_panier = :userId)');
-    $deleteFleurJunctionQuery->bindParam(':userId', $userId);
-    $deleteFleurJunctionQuery->execute();
-
-    $deleteJunctionQuery = $conn->prepare('DELETE FROM junction_panier_fleur WHERE id_panier = :userId');
-    $deleteJunctionQuery->bindParam(':userId', $userId);
-    $result = $deleteJunctionQuery->execute();
+    $deleteQuery = $conn->prepare('DELETE jpf FROM junction_panier_fleur jpf
+                                   INNER JOIN panier p ON jpf.id_panier = p.id
+                                   INNER JOIN commande c ON p.id = c.id_panier
+                                   WHERE c.id_utilisateur = :userId AND jpf.id_fleur = :productId');
+    $deleteQuery->bindParam(':userId', $userId);
+    $deleteQuery->bindParam(':productId', $productId);
+    $result = $deleteQuery->execute();
 
     if ($result) {
-        // header('Location: panier.php?success=delete');
         echo json_encode(['success' => true]);
         exit;
     } else {
-        // header('Location: panier.php?error=delete');
         echo json_encode(['success' => false]);
         exit;
     }
 }
-
 
 $action = $_GET['action'] ?? '';
 
@@ -113,7 +106,6 @@ if ($action === 'update') {
 $cartItems = getCartItems();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,7 +127,7 @@ $cartItems = getCartItems();
             <?php if (isset($_SESSION['user'])) : ?>
                 <div class="rounded-lg md:w-2/3">
                     <?php foreach ($cartItems as $item) : ?>
-                        <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                        <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start" data-product-id="<?php echo $item['id']; ?>">
                             <img src="data:image/jpeg;base64,<?php echo base64_encode($item['image']); ?>" alt="<?php echo $item['nom']; ?>" class="w-24 h-24 object-cover rounded-lg" />
 
                             <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
@@ -193,11 +185,6 @@ $cartItems = getCartItems();
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Mettre à jour dynamiquement la quantité sur la page
-                                const quantityElement = document.querySelector(`input[data-product-id="${productId}"]`);
-                                if (quantityElement) {
-                                    quantityElement.value = quantity;
-                                }
                                 updateTotalPrice();
                             } else {
                                 console.error('Erreur lors de la mise à jour de la quantité');
@@ -209,7 +196,6 @@ $cartItems = getCartItems();
                 });
             });
 
-            // Function to update total price
             function updateTotalPrice() {
                 fetch('panier.php?action=total')
                     .then(response => response.json())
@@ -232,7 +218,7 @@ $cartItems = getCartItems();
                 if (quantity > 1) {
                     quantity--;
                     input.value = quantity;
-                    input.dispatchEvent(new Event('change')); // Déclenche un événement 'change' manuellement
+                    input.dispatchEvent(new Event('change')); 
                 }
             });
         });
@@ -244,7 +230,7 @@ $cartItems = getCartItems();
                 let quantity = parseInt(input.value);
                 quantity++;
                 input.value = quantity;
-                input.dispatchEvent(new Event('change')); // Déclenche un événement 'change' manuellement
+                input.dispatchEvent(new Event('change')); 
             });
         });
 
@@ -252,15 +238,18 @@ $cartItems = getCartItems();
         deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const productId = this.dataset.productId;
+                const productElement = document.querySelector(`div[data-product-id="${productId}"]`);
 
                 fetch(`panier.php?action=delete&id=${productId}`, {
-                        method: 'POST' // Utilisez la méthode POST pour envoyer les données
+                        method: 'POST'
                     })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = 'panier.php?success=delete';
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            productElement.remove();
+                            updateTotalPrice();
                         } else {
-                            window.location.href = 'panier.php?error=delete';
+                            console.error('Erreur lors de la suppression de l\'article');
                         }
                     })
                     .catch(error => {
@@ -268,6 +257,17 @@ $cartItems = getCartItems();
                     });
             });
         });
+
+        function updateTotalPrice() {
+            fetch('panier.php?action=total')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-price').textContent = data.totalPrice + '€';
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération du prix total du panier :', error);
+                });
+        }
     </script>
 
 </body>
