@@ -44,7 +44,7 @@
 
     <section class="container mx-auto mt-16">
         <h2 class="text-2xl font-bold text-center">Inscription</h2>
-        <form action="register.php" method="POST" class="max-w-md mx-auto mt-8">
+        <form action="inscription.php" method="POST" class="max-w-md mx-auto mt-8">
             <div class="grid grid-cols-2 gap-4">
                 <div class="flex flex-col">
                     <div class="mb-4">

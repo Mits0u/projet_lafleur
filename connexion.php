@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit"
                     class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Se
                     connecter</button>
-                <a href="register.php"
+                <a href="inscription.php"
                     class="inline-block align-baseline font-bold text-sm text-green-500 hover:text-green-800">Pas encore
                     de compte ?</a>
             </div>
