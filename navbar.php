@@ -10,6 +10,9 @@
             <a class="text-gray-600 hover:text-gray-800" href="produits.php">Produits</a>
 
             <a class="text-gray-600 hover:text-gray-800" href="contact.php">Contact</a>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user']['type_compte_id'] != 1): ?>
+                <a class="text-gray-600 hover:text-gray-800" href="backend.php">Backend</a>
+            <?php endif; ?>
             <a class="text-gray-600 hover:text-gray-800" href="panier.php"><i
                     class="fas fa-shopping-cart text-gray-800"></i></a>
             <?php if (isset($_SESSION['user'])): ?>
@@ -36,6 +39,9 @@
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="index.php">Accueil</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="produits.php">Produits</a>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="contact.php">Contact</a>
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['type_compte_id'] != 1): ?>
+            <a class="block text-gray-600 hover:text-gray-800 py-2" href="backend.php">Backend</a>
+        <?php endif; ?>
         <a class="block text-gray-600 hover:text-gray-800 py-2" href="panier.php">Panier</a>
         <?php if (isset($_SESSION['user'])): ?>
             <a class="block text-gray-600 hover:text-gray-800 py-2" href="profile.php">Compte</a>
