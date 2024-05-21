@@ -158,7 +158,7 @@ $cartItems = getCartItems();
                                 <?php echo number_format(array_sum(array_column($cartItems, 'total')), 2) . '€'; ?>
                             </p>
                         </div>
-                        <a href="#" class="block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 mt-6 rounded-full">Payer</a>
+                        <a href="paiement.php" class="block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 mt-6 rounded-full">Payer</a>
                     </div>
                 </div>
             <?php else : ?>
