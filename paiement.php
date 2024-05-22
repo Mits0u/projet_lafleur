@@ -72,7 +72,26 @@
                 const cvv = document.getElementById('cvv').value;
 
                 if (validateCardNumber(cardNumber) && validateExpiryDate(expiryDate) && validateCVV(cvv)) {
-                    paymentStatus.textContent = "Paiement validé !";
+                    paymentStatus.textContent = "Paiement en cours...";
+
+                    setTimeout(() => {
+                        fetch('supprimer_panier.php')
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    paymentStatus.textContent = "Paiement validé !";
+                                    setTimeout(() => {
+                                        window.location.href = 'panier.php';
+                                    }, 1000); // Redirection après 1 seconde pour afficher le message "Paiement validé !"
+                                } else {
+                                    paymentStatus.textContent = "Erreur lors de la suppression du panier: " + data.message;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erreur lors de la suppression du panier :', error);
+                                paymentStatus.textContent = "Erreur lors de la suppression du panier.";
+                            });
+                    }, 5000); // Simuler un temps de chargement de 5 secondes
                 } else {
                     paymentStatus.textContent = "Veuillez saisir des informations de carte valides.";
                 }
